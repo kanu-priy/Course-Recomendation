@@ -14,7 +14,7 @@
 - **Live Hosted Application:** [https://course-recomendation-iota.vercel.app/](https://course-recomendation-iota.vercel.app/)
 - **GitHub Repository:** [https://github.com/kanu-priy/Course-Recomendation](https://github.com/kanu-priy/Course-Recomendation)
 - **Technical & Product Decisions Write-up:** Available at [`TECHNICAL_DECISIONS_WRITEUP.md`](./TECHNICAL_DECISIONS_WRITEUP.md)
-- **Video Walkthrough (Loom/Drive):** *[Record a 2-minute walkthrough using Loom and paste link here]*
+- **Video Walkthrough (MP4):** [▶ Watch / Download Walkthrough Video (walkthrough.mp4)](./walkthrough.mp4)
 
 ---
 
