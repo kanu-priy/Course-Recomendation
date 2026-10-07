@@ -1,8 +1,8 @@
 # GradGuide Course Recommendation Assistant — Technical & Product Write-Up
 
-**Candidate Assessment Submission** | Target: Option 3 (Course Recommendation Assistant)  
-**Submission Recipient:** fayola.m@gradguide.in | **Submission Due Date:** October 9th, 2026  
-**Repository & App:** GradGuide Advisor Co-Pilot (Next.js 14 App Router, TypeScript, Tailwind CSS)  
+**Live Hosted App:** [https://course-recomendation-iota.vercel.app/](https://course-recomendation-iota.vercel.app/)  
+**GitHub Repository:** [https://github.com/kanu-priy/Course-Recomendation](https://github.com/kanu-priy/Course-Recomendation)  
+**Submission Due Date:** October 9th, 2026  
 
 ---
 

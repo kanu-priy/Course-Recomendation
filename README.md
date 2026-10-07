@@ -5,16 +5,16 @@
 > **Repository:** https://github.com/kanu-priy/Course-Recomendation  
 > **Contact:** `fayola.m@gradguide.in` | **Submission Deadline:** October 9th, 2026  
 
-[![Technical Write-up](https://img.shields.io/badge/Technical%20Write--up-Read%20Here-blue.svg)](./TECHNICAL_DECISIONS_WRITEUP.md)
-[![Build Status](https://img.shields.io/badge/Build-Passing%20(Next.js%2014)-brightgreen.svg)]()
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-course--recomendation--iota.vercel.app-success.svg)](https://course-recomendation-iota.vercel.app/)
 
 ---
 
 ## 📹 Video Walkthrough & Live Demo
 
-- **Live Hosted Application:** *[Add your Vercel URL here, e.g. https://course-recomendation.vercel.app]*
-- **Video Walkthrough (Loom/Drive):** *[Add your video recording link here]*
+- **Live Hosted Application:** [https://course-recomendation-iota.vercel.app/](https://course-recomendation-iota.vercel.app/)
+- **GitHub Repository:** [https://github.com/kanu-priy/Course-Recomendation](https://github.com/kanu-priy/Course-Recomendation)
 - **Technical & Product Decisions Write-up:** Available at [`TECHNICAL_DECISIONS_WRITEUP.md`](./TECHNICAL_DECISIONS_WRITEUP.md)
+- **Video Walkthrough (Loom/Drive):** *[Record a 2-minute walkthrough using Loom and paste link here]*
 
 ---
 
