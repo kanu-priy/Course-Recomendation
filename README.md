@@ -2,7 +2,11 @@
 
 > **Option 3 Assessment Submission for GradGuide**  
 > **Target Role / Feature:** Live Google Meet Counselling Assistant & Decision-Support System  
+> **Repository:** https://github.com/kanu-priy/Course-Recomendation  
 > **Contact:** `fayola.m@gradguide.in` | **Submission Deadline:** October 9th, 2026  
+
+[![Technical Write-up](https://img.shields.io/badge/Technical%20Write--up-Read%20Here-blue.svg)](./TECHNICAL_DECISIONS_WRITEUP.md)
+[![Build Status](https://img.shields.io/badge/Build-Passing%20(Next.js%2014)-brightgreen.svg)]()
 
 ---
 
