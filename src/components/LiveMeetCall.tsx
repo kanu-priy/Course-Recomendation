@@ -14,6 +14,8 @@ import {
   User,
   Radio,
   Wifi,
+  Minimize2,
+  Maximize2,
 } from "lucide-react";
 
 interface LiveMeetCallProps {
@@ -34,6 +36,7 @@ export const LiveMeetCall: React.FC<LiveMeetCallProps> = ({
 }) => {
   const [isMuted, setIsMuted] = useState(false);
   const [isVideoOn, setIsVideoOn] = useState(true);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const [transcriptStream, setTranscriptStream] = useState<
     { sender: string; text: string; time: string }[]
   >([
@@ -87,82 +90,108 @@ export const LiveMeetCall: React.FC<LiveMeetCallProps> = ({
           <span className="px-2 py-0.5 text-[10px] font-semibold rounded-md bg-rose-500/10 text-rose-400 border border-rose-500/20 flex items-center gap-1">
             <Radio className="w-3 h-3 animate-pulse" /> REC 12:44
           </span>
+
+          <button
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            className="p-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors"
+            title={isCollapsed ? "Expand Video Tiles" : "Collapse into Compact Floating Bar"}
+          >
+            {isCollapsed ? <Maximize2 className="w-3.5 h-3.5" /> : <Minimize2 className="w-3.5 h-3.5" />}
+          </button>
         </div>
       </div>
 
-      {/* Video Call Grid */}
-      <div className="p-3 sm:p-4 grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-950/60 flex-1 min-h-[190px]">
-        {/* Tile 1: Student */}
-        <div className="relative rounded-xl overflow-hidden bg-slate-900/90 border border-slate-800 flex flex-col justify-between p-3.5 group shadow-inner">
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent z-10 pointer-events-none" />
+      {/* Video Call Grid (Hidden when collapsed) */}
+      {!isCollapsed ? (
+        <div className="p-3 sm:p-4 grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-950/60 flex-1 min-h-[190px]">
+          {/* Tile 1: Student */}
+          <div className="relative rounded-xl overflow-hidden bg-slate-900/90 border border-slate-800 flex flex-col justify-between p-3.5 group shadow-inner">
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent z-10 pointer-events-none" />
 
-          {/* Top Status */}
-          <div className="z-20 flex justify-between items-center">
-            <span className="px-2 py-0.5 text-[9px] font-bold rounded-md bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
-              <Volume2 className="w-3 h-3 animate-pulse" /> Speaking
-            </span>
-            <span className="w-5 h-5 rounded-full bg-slate-800/80 text-slate-300 flex items-center justify-center text-[10px]">
-              <User className="w-3 h-3" />
-            </span>
-          </div>
-
-          {/* Student Avatar Graphic */}
-          <div className="my-auto flex flex-col items-center justify-center py-3 z-10">
-            <div className="relative">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-tr from-indigo-600 via-blue-600 to-cyan-500 flex items-center justify-center text-xl sm:text-2xl font-black text-white shadow-xl shadow-indigo-500/25 ring-4 ring-indigo-500/20">
-                AC
-              </div>
-              <div className="absolute -bottom-1 -right-1 bg-emerald-500 w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 border-slate-900 flex items-center justify-center text-[8px] text-white font-bold">
-                ✓
-              </div>
+            {/* Top Status */}
+            <div className="z-20 flex justify-between items-center">
+              <span className="px-2 py-0.5 text-[9px] font-bold rounded-md bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
+                <Volume2 className="w-3 h-3 animate-pulse" /> Speaking
+              </span>
+              <span className="w-5 h-5 rounded-full bg-slate-800/80 text-slate-300 flex items-center justify-center text-[10px]">
+                <User className="w-3 h-3" />
+              </span>
             </div>
-            <p className="mt-2 text-xs sm:text-sm font-bold text-slate-100">
-              Alex Chen
-            </p>
-            <p className="text-[10px] text-slate-400">CS Applicant (B.Tech graduate)</p>
+
+            {/* Student Avatar Graphic */}
+            <div className="my-auto flex flex-col items-center justify-center py-3 z-10">
+              <div className="relative">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-tr from-indigo-600 via-blue-600 to-cyan-500 flex items-center justify-center text-xl sm:text-2xl font-black text-white shadow-xl shadow-indigo-500/25 ring-4 ring-indigo-500/20">
+                  AC
+                </div>
+                <div className="absolute -bottom-1 -right-1 bg-emerald-500 w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 border-slate-900 flex items-center justify-center text-[8px] text-white font-bold">
+                  ✓
+                </div>
+              </div>
+              <p className="mt-2 text-xs sm:text-sm font-bold text-slate-100">
+                Alex Chen
+              </p>
+              <p className="text-[10px] text-slate-400">CS Applicant (B.Tech graduate)</p>
+            </div>
+
+            {/* Bottom Label */}
+            <div className="z-20 flex items-center justify-between text-[10px]">
+              <span className="text-slate-300 font-medium">Student Feed</span>
+              <span className="text-slate-500">1080p • 60fps</span>
+            </div>
           </div>
 
-          {/* Bottom Label */}
-          <div className="z-20 flex items-center justify-between text-[10px]">
-            <span className="text-slate-300 font-medium">Student Feed</span>
-            <span className="text-slate-500">1080p • 60fps</span>
+          {/* Tile 2: Counsellor */}
+          <div className="relative rounded-xl overflow-hidden bg-slate-900/90 border border-slate-800 flex flex-col justify-between p-3.5 shadow-inner">
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent z-10 pointer-events-none" />
+
+            <div className="z-20 flex justify-between items-center">
+              <span className="px-2 py-0.5 text-[9px] font-bold rounded-md bg-indigo-500/15 text-indigo-400 border border-indigo-500/30">
+                GradGuide Advisor
+              </span>
+            </div>
+
+            <div className="my-auto flex flex-col items-center justify-center py-3 z-10">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-tr from-slate-800 to-slate-700 border-2 border-slate-700/80 flex items-center justify-center text-xl sm:text-2xl font-black text-slate-200 shadow-lg">
+                SJ
+              </div>
+              <p className="mt-2 text-xs sm:text-sm font-bold text-slate-100">
+                Sarah Jenkins
+              </p>
+              <p className="text-[10px] text-slate-400">Senior Admissions Lead</p>
+            </div>
+
+            <div className="z-20 flex items-center justify-between text-[10px]">
+              <span className="text-slate-300 font-medium">You (Advisor)</span>
+              {isMuted ? (
+                <span className="text-rose-400 font-semibold flex items-center gap-1">
+                  <MicOff className="w-3 h-3" /> Muted
+                </span>
+              ) : (
+                <span className="text-emerald-400 font-semibold flex items-center gap-1">
+                  <Mic className="w-3 h-3" /> Mic Live
+                </span>
+              )}
+            </div>
           </div>
         </div>
-
-        {/* Tile 2: Counsellor */}
-        <div className="relative rounded-xl overflow-hidden bg-slate-900/90 border border-slate-800 flex flex-col justify-between p-3.5 shadow-inner">
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent z-10 pointer-events-none" />
-
-          <div className="z-20 flex justify-between items-center">
-            <span className="px-2 py-0.5 text-[9px] font-bold rounded-md bg-indigo-500/15 text-indigo-400 border border-indigo-500/30">
-              GradGuide Advisor
-            </span>
-          </div>
-
-          <div className="my-auto flex flex-col items-center justify-center py-3 z-10">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-tr from-slate-800 to-slate-700 border-2 border-slate-700/80 flex items-center justify-center text-xl sm:text-2xl font-black text-slate-200 shadow-lg">
-              SJ
+      ) : (
+        /* Compact Floating Strip when collapsed */
+        <div className="px-4 py-2.5 bg-slate-950/60 flex items-center justify-between border-b border-slate-800/60 text-xs">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center text-xs">
+              AC
             </div>
-            <p className="mt-2 text-xs sm:text-sm font-bold text-slate-100">
-              Sarah Jenkins
-            </p>
-            <p className="text-[10px] text-slate-400">Senior Admissions Lead</p>
+            <div>
+              <p className="font-bold text-slate-100 text-[11px]">Alex Chen (Speaking)</p>
+              <p className="text-[10px] text-emerald-400 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Audio feed connected
+              </p>
+            </div>
           </div>
-
-          <div className="z-20 flex items-center justify-between text-[10px]">
-            <span className="text-slate-300 font-medium">You (Advisor)</span>
-            {isMuted ? (
-              <span className="text-rose-400 font-semibold flex items-center gap-1">
-                <MicOff className="w-3 h-3" /> Muted
-              </span>
-            ) : (
-              <span className="text-emerald-400 font-semibold flex items-center gap-1">
-                <Mic className="w-3 h-3" /> Mic Live
-              </span>
-            )}
-          </div>
+          <span className="text-[10px] text-slate-400 italic">Call docked to top strip</span>
         </div>
-      </div>
+      )}
 
       {/* Live Transcript Stream Ticker */}
       <div className="px-3 sm:px-4 py-2.5 bg-slate-950/90 border-t border-slate-800/80 flex flex-col gap-2">

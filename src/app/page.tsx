@@ -282,6 +282,7 @@ export default function HomePage() {
                       currency={currency}
                       onOpenVisaRadar={setVisaRadarCourse}
                       onOpenPitchScript={setPitchScriptCourse}
+                      onOpenAlternatives={setAlternativeCourse}
                     />
                   ))}
                 </div>
@@ -323,6 +324,7 @@ export default function HomePage() {
                       currency={currency}
                       onOpenVisaRadar={setVisaRadarCourse}
                       onOpenPitchScript={setPitchScriptCourse}
+                      onOpenAlternatives={setAlternativeCourse}
                     />
                   ))}
                 </div>
@@ -364,6 +366,7 @@ export default function HomePage() {
                       currency={currency}
                       onOpenVisaRadar={setVisaRadarCourse}
                       onOpenPitchScript={setPitchScriptCourse}
+                      onOpenAlternatives={setAlternativeCourse}
                     />
                   ))}
                 </div>

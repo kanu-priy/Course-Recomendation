@@ -19,7 +19,9 @@ import {
   Clock,
   Globe,
   Mic,
+  Compass,
   AlertTriangle,
+  HelpCircle,
 } from "lucide-react";
 import { ScoredCourse, Course } from "@/types/course";
 import { CurrencyCode, formatCurrency } from "@/lib/currencyConverter";
@@ -34,6 +36,7 @@ interface CourseCardProps {
   currency: CurrencyCode;
   onOpenVisaRadar: (course: Course) => void;
   onOpenPitchScript: (course: Course) => void;
+  onOpenAlternatives: (course: Course) => void;
 }
 
 export const CourseCard: React.FC<CourseCardProps> = ({
@@ -46,6 +49,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   currency,
   onOpenVisaRadar,
   onOpenPitchScript,
+  onOpenAlternatives,
 }) => {
   const { course, match } = scored;
   const [showBreakdown, setShowBreakdown] = useState(false);
@@ -55,6 +59,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
 
   // Safe Reasons list fallback
   const reasonsList = match.whyRelevant || match.reasons || [];
+  const incompleteWarnings = match.incompleteWarnings || [];
 
   // Tier Badge & Glow Config
   const getTierBadge = () => {
@@ -186,50 +191,80 @@ export const CourseCard: React.FC<CourseCardProps> = ({
           )}
         </div>
 
-        {/* Unique Feature Quick Buttons (Visa Radar + Pitch Script) */}
-        <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800/80 text-[11px]">
+        {/* Feature Buttons: Visa Radar + Pitch Script + Explore Alternatives */}
+        <div className="grid grid-cols-3 gap-1.5 pt-2 border-t border-slate-800/80 text-[10px]">
           <button
             onClick={() => onOpenVisaRadar(course)}
-            className="flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30 transition-all active:scale-95 shadow-sm"
+            className="flex items-center justify-center gap-1 px-1.5 py-1.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30 transition-all active:scale-95 shadow-sm"
+            title="Evaluate country embassy proof-of-funds rules"
           >
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-            <span className="truncate">Visa Risk Radar</span>
+            <ShieldCheck className="w-3 h-3 text-emerald-400 shrink-0" />
+            <span className="truncate">Visa Radar</span>
           </button>
 
           <button
             onClick={() => onOpenPitchScript(course)}
-            className="flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 font-bold border border-purple-500/30 transition-all active:scale-95 shadow-sm"
+            className="flex items-center justify-center gap-1 px-1.5 py-1.5 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 font-bold border border-purple-500/30 transition-all active:scale-95 shadow-sm"
+            title="Generate talking points for live meeting"
           >
-            <Mic className="w-3.5 h-3.5 text-purple-400" />
-            <span className="truncate">Live Pitch Script</span>
+            <Mic className="w-3 h-3 text-purple-400 shrink-0" />
+            <span className="truncate">Pitch Script</span>
+          </button>
+
+          <button
+            onClick={() => onOpenAlternatives(course)}
+            className="flex items-center justify-center gap-1 px-1.5 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/30 transition-all active:scale-95 shadow-sm"
+            title="Explore alternative recommendations (Assignment Requirement)"
+          >
+            <Compass className="w-3 h-3 text-cyan-400 shrink-0" />
+            <span className="truncate">Alternatives</span>
           </button>
         </div>
 
-        {/* Expandable Smart Admission Breakdown */}
+        {/* Expandable Explainability & Viability Breakdown */}
         <div className="pt-1">
           <button
             onClick={() => setShowBreakdown(!showBreakdown)}
             className="w-full flex items-center justify-between text-[11px] font-bold text-slate-400 hover:text-slate-200 py-1 transition-colors border-t border-slate-800/70"
           >
             <span className="flex items-center gap-1">
-              <Info className="w-3 h-3 text-indigo-400" /> Smart Admission Viability Breakdown
+              <Info className="w-3 h-3 text-indigo-400" /> Explain Why Relevant & Scoring Breakdown
             </span>
             {showBreakdown ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
           </button>
 
           {showBreakdown && (
-            <div className="mt-2 p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-2 text-[11px] animate-fadeIn">
-              <div className="grid grid-cols-2 gap-2 text-slate-300 border-b border-slate-800/80 pb-2">
-                <div>GPA Score: <span className="font-extrabold text-indigo-400">{match.scoreBreakdown.gpaScore}/35</span></div>
-                <div>English: <span className="font-extrabold text-emerald-400">{match.scoreBreakdown.englishScore}/20</span></div>
-                <div>Work Exp: <span className="font-extrabold text-cyan-400">{match.scoreBreakdown.workExpScore}/15</span></div>
-                <div>Selectivity: <span className="font-extrabold text-purple-400">{match.scoreBreakdown.selectivityAdjust}/15</span></div>
+            <div className="mt-2 p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-2.5 text-[11px] animate-fadeIn">
+              {/* Scoring breakdown */}
+              <div>
+                <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">Scoring Allocation:</span>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 text-slate-300 border-b border-slate-800/80 pb-2 text-[10px]">
+                  <div>GPA: <span className="font-extrabold text-indigo-400">{match.scoreBreakdown.gpaScore}/35</span></div>
+                  <div>English: <span className="font-extrabold text-emerald-400">{match.scoreBreakdown.englishScore}/20</span></div>
+                  <div>Work Exp: <span className="font-extrabold text-cyan-400">{match.scoreBreakdown.workExpScore}/15</span></div>
+                  <div>Selectivity: <span className="font-extrabold text-purple-400">{match.scoreBreakdown.selectivityAdjust}/15</span></div>
+                </div>
               </div>
-              <div className="space-y-1.5 text-slate-300">
+
+              {/* Explain Why Relevant */}
+              <div className="space-y-1">
+                <span className="text-[10px] uppercase font-bold text-cyan-400 block">Why Relevant to Student:</span>
                 {reasonsList.map((r, i) => (
-                  <p key={i} className="leading-snug">• {r}</p>
+                  <p key={i} className="text-slate-300 leading-snug">• {r}</p>
                 ))}
               </div>
+
+              {/* Incomplete info warnings if any */}
+              {incompleteWarnings.length > 0 && (
+                <div className="pt-1.5 border-t border-slate-800/80 space-y-1">
+                  <span className="text-[10px] uppercase font-bold text-amber-400 flex items-center gap-1">
+                    <AlertTriangle className="w-3 h-3 text-amber-400" /> Incomplete Profile Flags:
+                  </span>
+                  {incompleteWarnings.map((w, i) => (
+                    <p key={i} className="text-amber-300/90 text-[10px] leading-snug">⚠️ {w}</p>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>
