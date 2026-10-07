@@ -10,33 +10,60 @@
 
 ---
 
-## 🌟 What Makes This Stand Out & Unique?
+## 📹 Video Walkthrough & Live Demo
 
-While generic AI tools simply wrap text prompts, **GradGuide Co-Pilot** incorporates **3 Standout Domain-Specific Innovations** designed for study abroad counsellors during live video calls:
-
-1. 🛡️ **Embassy Visa Risk Radar**: Evaluates country-specific visa proof-of-funds rules (Germany €11,208 Blocked Account, UKVI 28-day holding rule, Canada CAD $20,635 GIC, US Form I-20 buffer) and provides a **Visa Approval Probability Score (%)**.
-2. 🎙️ **Live Pitch Script Generator**: Generates 3 ready-to-speak scripts for counselors on live calls (Parent ROI Pitch, Student Career Pitch, and Objection Handler).
-3. 💱 **Multi-Currency Live FX Converter**: Toggles instant currency conversion across **USD ($), INR (₹ Lakhs), EUR (€), GBP (£), CAD (CA$), and AUD (A$)**.
+- **Live Hosted Application:** *[Add your Vercel URL here, e.g. https://course-recomendation.vercel.app]*
+- **Video Walkthrough (Loom/Drive):** *[Add your video recording link here]*
+- **Technical & Product Decisions Write-up:** Available at [`TECHNICAL_DECISIONS_WRITEUP.md`](./TECHNICAL_DECISIONS_WRITEUP.md)
 
 ---
 
-## ✨ Key Original Features
+## 📋 Assessment Specification Mapping
 
-### ⚡ 1. Live Voice / Note Context Extractor & Quick Auto-Search
-- **Simulated Google Meet Call & Scratchpad**: Dual-view UI with a live Meet call interface on the left and live voice notes extractor on the right.
-- **Real-time Keyword & Speech Parser**: Parses advisor notes and speech for GPA, IELTS/TOEFL/GRE scores, tuition budget limits, target intakes (`Fall 2025`), destination countries (`US`, `UK`, `Canada`, `Australia`, `Germany`, `Ireland`), and STEM preferences.
-
-### 🎯 2. Smart Admission Tiering Dashboard (Safe vs. Moderate vs. Reach)
-- **3 Parallel Column Dashboard**: Displays **Safe Matches** (🟢), **Moderate Targets** (🟡), and **Reach / Dream** (🔴) options side-by-side on the exact same page.
-- **Explainable Match Scorecard**: Displays detailed point breakdowns for GPA, language proficiency, work experience, and selectivity.
-
-### 📊 3. Side-by-Side Trade-off & ROI / Visa Comparison Matrix
-- **Inline Comparative Matrix**: Compare selected courses side-by-side without opening modals.
-- **Financial & Visa Analytics**: Calculates Total Study Cost, Post-Study Work Visa (PSW) durations (3-Year US STEM OPT, 2-Year UK PSW, Germany, Canada PGWP), and 3-Year Post-Grad ROI %.
+| Hiring Assignment Requirement | Implementation in Application | Status |
+| :--- | :--- | :---: |
+| **Recommend relevant courses based on student profile** | Weighted multi-criteria eligibility engine (`src/lib/recommendationEngine.ts`) calculating 0–100% fit scores across GPA, English, Work Exp, Budget, and Selectivity. | ✅ Complete |
+| **Show useful info (university, country, fees, intake, eligibility)** | Displayed on Course Cards, Details Modal, and Comparison Matrix with real-time currency conversion. | ✅ Complete |
+| **Explain why a course may be relevant to the student** | Expandable "Smart Admission Viability Breakdown" on every card detailing point allocations and explicit "Why Relevant" rationale. | ✅ Complete |
+| **Allow counsellor to explore alternative recommendations** | Dedicated "Alternatives" modal (`AlternativeCoursesModal.tsx`) surfacing similar programs with lower tuition or cross-country options. | ✅ Complete |
+| **Allow counsellor to search or ask questions about courses** | Keyword multi-field search + slide-over "Ask Co-Pilot AI" drawer with natural language Q&A (Google Gemini API + smart offline fallback). | ✅ Complete |
+| **Live Google Meet Experience** | Dual-view layout (Meet simulator on the left, Assistant on the right) with audio waveform, live transcript stream, and collapsible floating mode. | ✅ Complete |
+| **Incomplete Information Handling** | Graceful defaults, English waiver indicators, and "Incomplete Profile Warning" badges when GPA/test scores are not provided. | ✅ Complete |
+| **Structured Course Data & Updates** | Structured JSON dataset (`src/data/courses.json`) with 20+ fields per program; easily updatable via headless CMS or DB pipeline. | ✅ Complete |
 
 ---
 
-## 🚀 Quick Start & Local Run Instructions
+## 🌟 The 3 Original Features
+
+### ⚡ Feature 1: Live Voice & Scratchpad Context Extractor
+- **The Problem:** Counsellors break conversational eye-contact and rapport on video calls having to type into search filters.
+- **Why It Matters:** Keeps recommendations synchronized with live dialogue effortlessly without interrupting student flow.
+- **How It Works:** Counsellor speaks into the mic or types live notes (`Web Speech API` + NLP parser). GPA, IELTS/TOEFL scores, budget limits, target intakes, and destination countries are automatically extracted and synced to recommendations in real time.
+
+### 🎯 Feature 2: Smart Admission Tiering Dashboard (Safe vs. Moderate vs. Reach)
+- **Problem:** Students often over-index on ambitious universities without backup options, leading to total rejection risks.
+- **Why It Matters:** Enforces a balanced, realistic application strategy (Safe, Moderate, Reach) to maximize acceptance odds.
+- **How It Works:** Categorizes programs into 3 parallel columns:
+  - 🟢 **Safe Matches:** Candidate exceeds criteria (>75% admission probability).
+  - 🟡 **Moderate Targets:** Candidate meets criteria with solid competitiveness (55–74%).
+  - 🟣 **Reach / Dream:** Top-tier selective programs (<15% acceptance rate or academic deficit).
+
+### 📊 Feature 3: Side-by-Side Trade-off & ROI Comparison Matrix
+- **Problem:** Students and parents get confused comparing multiple currencies, living costs, and post-study work visa rights across countries.
+- **Why It Matters:** Provides transparent, data-backed financial clarity during the live session.
+- **How It Works:** Side-by-side trade-off matrix comparing Total Study Cost (`Tuition + Living * Duration`), Post-Study Work Visa duration (3-Yr US STEM OPT vs 2-Yr UK PSW), and 3-Year Estimated ROI %, with a one-click "Copy Formatted Matrix Sheet" button for session summaries.
+
+---
+
+## 🛡️ Additional Domain-Specific Innovations Beyond Generic AI
+
+1. **Embassy Visa Risk Radar (`src/lib/visaRiskEngine.ts`):** Evaluates country-specific visa proof-of-funds rules (Germany €11,208 Sperrkonto, UKVI 28-day holding rule, Canada CAD $20,635 GIC, US Form I-20 buffer) and computes a **Visa Approval Probability Score (%)**.
+2. **Live Counsellor Pitch Script Generator (`src/components/LivePitchScriptModal.tsx`):** Generates 3 ready-to-speak talking points tailored for live calls: Parent ROI Pitch, Student Career Pitch, and Objection Handler.
+3. **Multi-Currency Live FX Converter (`src/lib/currencyConverter.ts`):** Live conversion across **USD ($), INR (₹ Lakhs), EUR (€), GBP (£), CAD (CA$), and AUD (A$)**.
+
+---
+
+## 🚀 Local Run Instructions
 
 ### Prerequisites
 - **Node.js**: v18.0.0 or higher (Tested on Node v22.12.0)
@@ -44,9 +71,10 @@ While generic AI tools simply wrap text prompts, **GradGuide Co-Pilot** incorpor
 
 ### Step-by-Step Setup
 
-1. **Navigate to Project Directory:**
+1. **Clone the repository:**
    ```bash
-   cd "d:\Course Recomendation"
+   git clone https://github.com/kanu-priy/Course-Recomendation.git
+   cd Course-Recomendation
    ```
 
 2. **Install Dependencies:**
@@ -60,13 +88,16 @@ While generic AI tools simply wrap text prompts, **GradGuide Co-Pilot** incorpor
    ```
 
 4. **Open Application:**
-   Open your browser and navigate to `http://localhost:3000`.
+   Open your browser at `http://localhost:3000`.
+
+5. **(Optional) Add Gemini API Key:**
+   Copy `.env.local.example` to `.env.local` and add `GEMINI_API_KEY=your_key`. If omitted, the app automatically runs on its smart offline rule-based AI engine.
 
 ---
 
 ## 🛠 Tech Stack
 
 - **Framework:** Next.js 14 (App Router, TypeScript)
-- **Styling:** Tailwind CSS + Lucide Icons + Framer Motion
+- **Styling & Icons:** Tailwind CSS + Lucide Icons + Framer Motion
 - **AI Integration:** Google Gemini API (`@google/generative-ai`) with offline rule engine fallback
-- **Data Store:** Structured JSON (`src/data/courses.json`) containing 20+ realistic international master's programs
+- **Data Knowledge Base:** Structured JSON (`src/data/courses.json`)
